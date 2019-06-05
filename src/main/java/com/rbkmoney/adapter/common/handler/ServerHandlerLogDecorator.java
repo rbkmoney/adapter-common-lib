@@ -1,6 +1,7 @@
 package com.rbkmoney.adapter.common.handler;
 
 import com.rbkmoney.damsel.proxy_provider.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 
@@ -10,14 +11,10 @@ import static com.rbkmoney.java.damsel.utils.extractors.ProxyProviderPackageExtr
 import static com.rbkmoney.java.damsel.utils.verification.ProxyProviderVerification.isUndefinedResultOrUnavailable;
 
 @Slf4j
+@RequiredArgsConstructor
 public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
 
     private final ProviderProxySrv.Iface handler;
-
-    public ServerHandlerLogDecorator(ProviderProxySrv.Iface handler) {
-        this.handler = handler;
-        log.warn("Warning! The decorator can print card data!");
-    }
 
     @Override
     public RecurrentTokenProxyResult generateToken(RecurrentTokenContext context) throws TException {

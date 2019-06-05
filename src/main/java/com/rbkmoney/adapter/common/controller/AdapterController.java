@@ -7,7 +7,6 @@ import com.rbkmoney.adapter.helpers.hellgate.exception.HellgateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,19 +17,17 @@ import java.util.function.BiFunction;
 
 @Slf4j
 @RequiredArgsConstructor
-public class AdapterController {
+public abstract class AdapterController {
 
     private final HellgateAdapterClient hgClient;
 
     private final CallbackSerializer callbackSerializer;
 
-    @PostMapping(value = "term_url")
     public String receivePaymentIncomingParameters(HttpServletRequest servletRequest,
                                                    HttpServletResponse servletResponse) throws IOException {
         return processCallback(servletRequest, servletResponse, hgClient::processPaymentCallback);
     }
 
-    @PostMapping(value = "rec_term_url")
     public String receiveRecurrentIncomingParameters(HttpServletRequest servletRequest,
                                                      HttpServletResponse servletResponse) throws IOException {
         return processCallback(servletRequest, servletResponse, hgClient::processRecurrentTokenCallback);

@@ -20,6 +20,10 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
     private AtomicInteger requestNumberSequence = new AtomicInteger(0);
 
+    public LoggingInterceptor() {
+        log.warn("Warning! LoggingInterceptor can write bank card data in RAW");
+    }
+
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         int requestNumber = requestNumberSequence.incrementAndGet();
