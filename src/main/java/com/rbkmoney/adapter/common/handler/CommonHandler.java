@@ -4,7 +4,7 @@ import org.apache.thrift.TException;
 
 public interface CommonHandler<T, E> {
 
-    boolean isHandler(E model);
+    boolean isHandle(E model);
 
     T handle(E context) throws TException;
 

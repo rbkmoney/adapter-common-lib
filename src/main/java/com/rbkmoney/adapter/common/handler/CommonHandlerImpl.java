@@ -7,14 +7,13 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.function.Function;
 
-
 @Slf4j
 @RequiredArgsConstructor
-public abstract class CommonHandlerImpl<T, P, R, E> implements CommonHandler<T, E> {
+public abstract class CommonHandlerImpl<P, R, E, T> implements CommonHandler<T, E> {
 
     private final Function<P, R> requestFunction;
     private final Converter<E, P> converter;
-    private final Processor<T, E, R> processor;
+    private final Processor<T, R, E> processor;
 
     @Override
     public T handle(E entryStateModel) {

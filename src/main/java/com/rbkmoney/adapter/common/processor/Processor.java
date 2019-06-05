@@ -1,7 +1,7 @@
 package com.rbkmoney.adapter.common.processor;
 
-public interface Processor<T, E, R> {
+public interface Processor<R, T, E> {
 
-    T process(R response, E context);
+    R process(T response, E context);
 
 }

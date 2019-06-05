@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-    public class RestTemplateComponent {
+public class RestTemplateComponent {
 
     public RestTemplate getSimpleRestTemplate(MetricsRestTemplateCustomizer metricsRestTemplateCustomizer,
                                               int networkTimeout) {
