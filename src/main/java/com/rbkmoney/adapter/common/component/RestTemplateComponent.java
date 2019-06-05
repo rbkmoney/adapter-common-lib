@@ -24,49 +24,48 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SimpleRestTemplate {
+    public class RestTemplateComponent {
 
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder, int networkTimeout) {
-        int executionTimeout =
-                ContextUtils.getExecutionTimeout(TraceContext.getCurrentTraceData().getServiceSpan(), networkTimeout);
-        RestTemplate restTemplate = restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(executionTimeout))
-                .setReadTimeout(Duration.ofMillis(executionTimeout))
-                .build();
+    public RestTemplate getSimpleRestTemplate(MetricsRestTemplateCustomizer metricsRestTemplateCustomizer,
+                                              int networkTimeout) {
+        HttpComponentsClientHttpRequestFactory requestFactory = getRequestFactory(getSimpleHttpClient());
+        RestTemplateBuilder restTemplateBuilder = getRestTemplateBuilder(requestFactory, metricsRestTemplateCustomizer);
+        return getRestTemplate(restTemplateBuilder, networkTimeout);
+    }
 
-        Jaxb2RootElementHttpMessageConverter jaxbConverter = new Jaxb2RootElementHttpMessageConverter();
-        jaxbConverter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_HTML));
-        jaxbConverter.setDefaultCharset(Charset.forName("UTF-8"));
-
-        AllEncompassingFormHttpMessageConverter encompassingConverter = new AllEncompassingFormHttpMessageConverter();
-        encompassingConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
-
-        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-        stringHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_PLAIN/**, MediaType.TEXT_HTML*/));
-
-        List<HttpMessageConverter<?>> messageConverterList = new ArrayList<>();
-        messageConverterList.add(jaxbConverter);
-        messageConverterList.add(encompassingConverter);
-        messageConverterList.add(stringHttpMessageConverter);
+    public RestTemplate getRestTemplateWithConverters(MetricsRestTemplateCustomizer metricsRestTemplateCustomizer,
+                                                      List<HttpMessageConverter<?>> messageConverterList,
+                                                      int networkTimeout) {
+        HttpComponentsClientHttpRequestFactory requestFactory = getRequestFactory(getSimpleHttpClient());
+        RestTemplateBuilder restTemplateBuilder = getRestTemplateBuilder(requestFactory, metricsRestTemplateCustomizer);
+        RestTemplate restTemplate = getRestTemplate(restTemplateBuilder, networkTimeout);
         restTemplate.setMessageConverters(messageConverterList);
-
         return restTemplate;
     }
 
-    public RestTemplateBuilder restTemplateBuilder(HttpComponentsClientHttpRequestFactory requestFactory,
+    public RestTemplate getRestTemplate(RestTemplateBuilder restTemplateBuilder, int networkTimeout) {
+        int executionTimeout =
+                ContextUtils.getExecutionTimeout(TraceContext.getCurrentTraceData().getServiceSpan(), networkTimeout);
+        return restTemplateBuilder
+                .setConnectTimeout(Duration.ofMillis(executionTimeout))
+                .setReadTimeout(Duration.ofMillis(executionTimeout))
+                .build();
+    }
+
+    public RestTemplateBuilder getRestTemplateBuilder(HttpComponentsClientHttpRequestFactory requestFactory,
                                                    MetricsRestTemplateCustomizer metricsRestTemplateCustomizer) {
         return new RestTemplateBuilder()
                 .requestFactory(() -> requestFactory)
                 .additionalCustomizers(metricsRestTemplateCustomizer);
     }
 
-    public HttpComponentsClientHttpRequestFactory requestFactory(CloseableHttpClient httpClient) {
+    public HttpComponentsClientHttpRequestFactory getRequestFactory(CloseableHttpClient httpClient) {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
         return requestFactory;
     }
 
-    public CloseableHttpClient httpClient() {
+    public CloseableHttpClient getSimpleHttpClient() {
         return HttpClients.custom()
                 .disableAutomaticRetries()
                 .build();

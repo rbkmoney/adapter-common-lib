@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class SimpleNetworkFilters {
+public class NetworkFilterComponent {
 
     public static final String HEALTH = "/actuator/health";
 

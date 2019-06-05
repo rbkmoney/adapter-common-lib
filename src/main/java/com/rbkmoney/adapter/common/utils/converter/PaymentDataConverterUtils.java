@@ -27,6 +27,10 @@ public final class PaymentDataConverterUtils {
         return prepareOrder(invoiceId, DEFAULT_ID);
     }
 
+    public static String prepareOrder(PaymentInfo paymentInfo) {
+        return prepareOrder(paymentInfo.getInvoice().getId(), paymentInfo.getPayment().getId());
+    }
+
     public static String prepareOrder(String invoiceId, String paymentId) {
         return Long.toString(new Base62().decodeBase62(invoiceId) ^ Integer.parseInt(paymentId));
     }
