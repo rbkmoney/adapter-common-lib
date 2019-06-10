@@ -14,10 +14,14 @@ public final class StringUtils {
 
     public static String removePrefix(String string, String prefix) {
         if (string != null && string.startsWith(prefix)) {
-            return string.replace(prefix, "");
+            return string.replaceFirst(prefix, "");
         } else {
             return string;
         }
+    }
+
+    public static boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
 }

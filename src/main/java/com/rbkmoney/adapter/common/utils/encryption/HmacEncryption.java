@@ -1,5 +1,6 @@
 package com.rbkmoney.adapter.common.utils.encryption;
 
+import com.rbkmoney.adapter.common.utils.converter.StringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Hex;
@@ -10,10 +11,12 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static com.rbkmoney.adapter.common.utils.encryption.EncryptionAlgorithm.*;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HmacEncryption {
+
+    public static final String HMAC_SHA1 = "HmacSHA1";
+
+    public static final String HMAC_SHA256 = "HmacSHA256";
 
     public static String calculateHMacSha1(String data, String key) {
         return calculateHMAC(data, key, HMAC_SHA1);
@@ -46,9 +49,7 @@ public final class HmacEncryption {
                 .forEach(field -> {
                             if (params.get(field) != null
                                     && !params.get(field).isEmpty()
-                                    && params.get(field).get(0) != null
-                                    && !params.get(field).get(0).isEmpty()
-                                    ) {
+                                    && !StringUtils.isEmpty(params.get(field).get(0))) {
                                 dataHmac.append(params.get(field).get(0).length());
                                 dataHmac.append(params.get(field).get(0));
                             } else {
