@@ -1,6 +1,5 @@
 package com.rbkmoney.adapter.common.utils.encryption;
 
-import com.rbkmoney.adapter.common.utils.converter.StringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Hex;
@@ -49,7 +48,9 @@ public final class HmacEncryption {
                 .forEach(field -> {
                             if (params.get(field) != null
                                     && !params.get(field).isEmpty()
-                                    && !StringUtils.isEmpty(params.get(field).get(0))) {
+                                    && params.get(field).get(0) != null
+                                    && !params.get(field).get(0).isEmpty()
+                                    ) {
                                 dataHmac.append(params.get(field).get(0).length());
                                 dataHmac.append(params.get(field).get(0));
                             } else {
