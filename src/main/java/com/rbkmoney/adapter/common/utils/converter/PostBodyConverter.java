@@ -1,5 +1,7 @@
 package com.rbkmoney.adapter.common.utils.converter;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -10,9 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostBodyConverter {
 
-    public static String getUrlEncodedString(MultiValueMap<String, String> paramsMap){
+    public static String getUrlEncodedString(MultiValueMap<String, String> paramsMap) {
 
         FormHttpMessageConverter converter = new FormHttpMessageConverter();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -21,6 +24,7 @@ public class PostBodyConverter {
             public HttpHeaders getHeaders() {
                 return new HttpHeaders();
             }
+
             @Override
             public OutputStream getBody() {
                 return os;

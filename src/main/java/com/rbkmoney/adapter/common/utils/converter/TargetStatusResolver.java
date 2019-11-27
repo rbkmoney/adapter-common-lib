@@ -4,7 +4,10 @@ import com.rbkmoney.adapter.common.enums.TargetStatus;
 import com.rbkmoney.adapter.common.exception.UnknownTargetStatusException;
 import com.rbkmoney.damsel.domain.TargetInvoicePaymentStatus;
 import com.rbkmoney.damsel.proxy_provider.PaymentContext;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TargetStatusResolver {
 
     public static TargetStatus getTargetStatus(PaymentContext paymentContext) {

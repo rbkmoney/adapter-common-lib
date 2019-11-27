@@ -1,19 +1,22 @@
-package com.rbkmoney.adapter.common.serializer;
+package com.rbkmoney.adapter.common.state.deserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.adapter.common.model.AdapterContext;
 import com.rbkmoney.damsel.proxy_provider.PaymentContext;
 import com.rbkmoney.damsel.proxy_provider.RecurrentTokenContext;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
-public class AdapterSerializer extends StateSerializer<AdapterContext> {
+@Getter
+@Setter
+@AllArgsConstructor
+public class AdapterDeserializer implements Deserializer<AdapterContext> {
 
-    public AdapterSerializer(ObjectMapper mapper) {
-        super(mapper);
-    }
+    private final ObjectMapper mapper;
 
-    @Override
     public AdapterContext read(byte[] data) {
         if (data == null) {
             return new AdapterContext();
@@ -23,6 +26,11 @@ public class AdapterSerializer extends StateSerializer<AdapterContext> {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    @Override
+    public AdapterContext read(String data) {
+        throw new DeserializerException("Deserializer not supported");
     }
 
     public AdapterContext getAdapterContext(Object context) {
