@@ -32,8 +32,9 @@ public final class TargetStatusResolver {
                 return TargetStatus.REFUNDED;
             }
         }
-
         throw new UnknownTargetStatusException();
     }
+
+
 
 }

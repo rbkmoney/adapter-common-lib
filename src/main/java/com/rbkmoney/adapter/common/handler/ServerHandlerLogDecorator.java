@@ -7,6 +7,7 @@ import org.apache.thrift.TException;
 
 import java.nio.ByteBuffer;
 
+import static com.rbkmoney.adapter.common.utils.converter.PaymentResourceTypeResolver.getPaymentResourceType;
 import static com.rbkmoney.java.damsel.utils.extractors.ProxyProviderPackageExtractors.*;
 import static com.rbkmoney.java.damsel.utils.verification.ProxyProviderVerification.isUndefinedResultOrUnavailable;
 
@@ -45,15 +46,16 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
     public PaymentProxyResult processPayment(PaymentContext context) throws TException {
         String invoiceId = extractInvoiceId(context);
         String invoicePaymentStatus = extractTargetInvoicePaymentStatus(context);
-        log.info("Process payment handle {} start with invoiceId {}", invoicePaymentStatus, invoiceId);
+        String paymentResourceType = getPaymentResourceType(context);
+        log.info("Process payment handle {}-{} start with invoiceId {}", paymentResourceType, invoicePaymentStatus, invoiceId);
         try {
             PaymentProxyResult proxyResult = handler.processPayment(context);
-            log.info("Process payment handle {} finished with invoiceId {} and proxyResult {}",
-                    invoicePaymentStatus, invoiceId, proxyResult);
+            log.info("Process payment handle {}-{} finished with invoiceId {} and proxyResult {}",
+                    paymentResourceType, invoicePaymentStatus, invoiceId, proxyResult);
             return proxyResult;
         } catch (Exception e) {
-            String message = String.format("Failed handle %s process payment for operation with invoiceId %s",
-                    invoicePaymentStatus, invoiceId);
+            String message = String.format("Failed handle %s-%s process payment for operation with invoiceId %s",
+                    paymentResourceType, invoicePaymentStatus, invoiceId);
             logMessage(e, message);
             throw e;
         }

@@ -3,9 +3,9 @@ package com.rbkmoney.adapter.common.state.serializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rbkmoney.adapter.common.model.RecToken;
 
-public class RecTokenSerializer extends StateSerializer<RecToken> {
+public class RecurrentTokenSerializer extends StateSerializer<RecToken> {
 
-    public RecTokenSerializer(ObjectMapper mapper) {
+    public RecurrentTokenSerializer(ObjectMapper mapper) {
         super(mapper);
     }
 
