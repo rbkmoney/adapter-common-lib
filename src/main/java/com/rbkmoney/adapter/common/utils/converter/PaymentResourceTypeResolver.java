@@ -19,7 +19,9 @@ public class PaymentResourceTypeResolver {
     }
 
     public static String getPaymentResourceType(PaymentResource paymentResource) {
-        return (paymentResource.isSetRecurrentPaymentResource()) ? PaymentResourceType.RECURRENT.name() : PaymentResourceType.PAYMENT.name();
+        return (paymentResource.isSetRecurrentPaymentResource())
+                ? PaymentResourceType.RECURRENT.name()
+                : PaymentResourceType.PAYMENT.name();
     }
 
 }
