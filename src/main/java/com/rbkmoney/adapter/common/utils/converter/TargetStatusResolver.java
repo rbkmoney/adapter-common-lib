@@ -34,7 +34,4 @@ public final class TargetStatusResolver {
         }
         throw new UnknownTargetStatusException();
     }
-
-
-
 }
