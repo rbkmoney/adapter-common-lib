@@ -16,10 +16,19 @@ import java.io.OutputStream;
 public class PostBodyConverter {
 
     public static String getUrlEncodedString(MultiValueMap<String, String> paramsMap) {
-
         FormHttpMessageConverter converter = new FormHttpMessageConverter();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        HttpOutputMessage outputMessage = new HttpOutputMessage() {
+        HttpOutputMessage outputMessage = prepareOutputMessage(os);
+        try {
+            converter.write(paramsMap, MediaType.APPLICATION_FORM_URLENCODED, outputMessage);
+            return os.toString();
+        } catch (IOException e) {
+            throw new ConverterException(e);
+        }
+    }
+
+    private static HttpOutputMessage prepareOutputMessage(ByteArrayOutputStream os) {
+        return new HttpOutputMessage() {
             @Override
             public HttpHeaders getHeaders() {
                 return new HttpHeaders();
@@ -30,11 +39,5 @@ public class PostBodyConverter {
                 return os;
             }
         };
-        try {
-            converter.write(paramsMap, MediaType.APPLICATION_FORM_URLENCODED, outputMessage);
-            return os.toString();
-        } catch (IOException e) {
-            throw new ConverterException(e);
-        }
     }
 }
