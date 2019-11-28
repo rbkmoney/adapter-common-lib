@@ -12,7 +12,7 @@ import java.util.Base64;
 @Getter
 @Setter
 @AllArgsConstructor
-public class RecTokenDeserializer implements Deserializer<RecToken> {
+public class RecurrentTokenDeserializer implements Deserializer<RecToken> {
 
     private final ObjectMapper mapper;
 
