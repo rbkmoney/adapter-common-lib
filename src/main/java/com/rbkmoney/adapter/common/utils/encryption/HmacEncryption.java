@@ -40,7 +40,7 @@ public final class HmacEncryption {
             byte[] resultBytes = mac.doFinal(dataBytes);
             return new String(new Hex().encode(resultBytes));
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new HmacEncryptionException(ex);
         }
     }
 

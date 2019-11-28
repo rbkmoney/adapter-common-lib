@@ -2,8 +2,8 @@ package com.rbkmoney.adapter.common.state.serializer;
 
 public interface Serializer<TState> {
 
-    byte[] writeByte(Object obj);
+    byte[] writeByte(TState obj);
 
-    String writeString(Object obj);
+    String writeString(TState obj);
 
 }

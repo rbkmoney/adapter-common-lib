@@ -34,7 +34,7 @@ public class PostBodyConverter {
             converter.write(paramsMap, MediaType.APPLICATION_FORM_URLENCODED, outputMessage);
             return os.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ConverterException(e);
         }
     }
 }
