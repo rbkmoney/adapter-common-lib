@@ -10,6 +10,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HmacEncryption {
@@ -46,22 +47,24 @@ public final class HmacEncryption {
 
     public static String prepareDataForHmac(String[] fields, MultiValueMap<String, String> params) {
         StringBuilder dataHmac = new StringBuilder();
-        Arrays.asList(fields)
-                .forEach(field -> {
-                            if (params.get(field) != null
-                                    && !params.get(field).isEmpty()
-                                    && params.get(field).get(0) != null
-                                    && !params.get(field).get(0).isEmpty()
-                            ) {
-                                dataHmac.append(params.get(field).get(0).length());
-                                dataHmac.append(params.get(field).get(0));
-                            } else {
-                                dataHmac.append("-");
-                            }
-                        }
-                );
-
+        Arrays.asList(fields).forEach(fillDataHmac(params, dataHmac));
         return dataHmac.toString();
+    }
+
+    private static Consumer<String> fillDataHmac(MultiValueMap<String, String> params, StringBuilder dataHmac) {
+        return field -> {
+                    if (hasFieldAndNotEmpty(params, field)) {
+                        dataHmac.append(params.get(field).get(0).length());
+                        dataHmac.append(params.get(field).get(0));
+                    } else {
+                        dataHmac.append("-");
+                    }
+                };
+    }
+
+    private static boolean hasFieldAndNotEmpty(MultiValueMap<String, String> params, String field) {
+        return params.get(field) != null && !params.get(field).isEmpty()
+                && params.get(field).get(0) != null && !params.get(field).get(0).isEmpty();
     }
 
     public static String sign(String[] fieldsForSign,
