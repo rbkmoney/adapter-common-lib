@@ -1,6 +1,5 @@
 package com.rbkmoney.adapter.common.utils.converter;
 
-import com.rbkmoney.damsel.cds.SessionData;
 import com.rbkmoney.damsel.domain.BankCardExpDate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -39,15 +38,6 @@ public class BankCardUtils {
 
     public static String getMonthFromByte(byte month) {
         return String.format("%02d", month);
-    }
-
-    public static String getCvv2(SessionData sessionData) {
-        if (sessionData == null
-                || sessionData.getAuthData() == null
-                || !sessionData.getAuthData().isSetCardSecurityCode()) {
-            return null;
-        }
-        return sessionData.getAuthData().getCardSecurityCode().getValue();
     }
 
 }
