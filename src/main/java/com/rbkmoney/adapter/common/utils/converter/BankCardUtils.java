@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Calendar;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CardDataUtils {
+public class BankCardUtils {
 
     public static String getYearFromBankCardExpDate(Short year) {
         return String.format("%1$02d", year % 100);
