@@ -47,14 +47,14 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
         String invoiceId = extractInvoiceId(context);
         String invoicePaymentStatus = extractTargetInvoicePaymentStatus(context);
         String paymentResourceType = PaymentResourceTypeResolver.extractPaymentResourceType(context);
-        log.info("Process payment handle {}-{} start with invoiceId {}", paymentResourceType, invoicePaymentStatus, invoiceId);
+        log.info("Process payment handle paymentResourceType='{}', invoicePaymentStatus='{}' start with invoiceId {}", paymentResourceType, invoicePaymentStatus, invoiceId);
         try {
             PaymentProxyResult proxyResult = handler.processPayment(context);
-            log.info("Process payment handle {}-{} finished with invoiceId {} and proxyResult {}",
+            log.info("Process payment handle paymentResourceType='{}', invoicePaymentStatus='{}' finished with invoiceId {} and proxyResult {}",
                     paymentResourceType, invoicePaymentStatus, invoiceId, proxyResult);
             return proxyResult;
         } catch (Exception e) {
-            String message = String.format("Failed handle %s-%s process payment for operation with invoiceId %s",
+            String message = String.format("Failed handle paymentResourceType=%s, invoicePaymentStatus=%s process payment for operation with invoiceId %s",
                     paymentResourceType, invoicePaymentStatus, invoiceId);
             logMessage(e, message);
             throw e;
