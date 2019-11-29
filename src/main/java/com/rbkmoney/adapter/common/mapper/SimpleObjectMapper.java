@@ -9,7 +9,7 @@ import com.rbkmoney.adapter.common.mapper.naming.strategy.UpperSnakeCaseStrategy
 
 public class SimpleObjectMapper {
 
-    public ObjectMapper getSimpleObjectMapper() {
+    public ObjectMapper getSimpleObjectMapperFactory() {
         return new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new JavaTimeModule())
@@ -18,7 +18,7 @@ public class SimpleObjectMapper {
     }
 
     public ObjectMapper getUpperSnakeCaseStrategyMapper() {
-        return getSimpleObjectMapper().setPropertyNamingStrategy(new UpperSnakeCaseStrategy());
+        return getSimpleObjectMapperFactory().setPropertyNamingStrategy(new UpperSnakeCaseStrategy());
     }
 
 }
