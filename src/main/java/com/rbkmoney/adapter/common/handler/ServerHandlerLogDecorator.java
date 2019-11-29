@@ -1,14 +1,14 @@
 package com.rbkmoney.adapter.common.handler;
 
+import com.rbkmoney.adapter.common.utils.converter.PaymentResourceTypeResolver;
 import com.rbkmoney.damsel.proxy_provider.*;
+import com.rbkmoney.java.damsel.utils.extractors.ProxyProviderPackageExtractors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 
 import java.nio.ByteBuffer;
 
-import static com.rbkmoney.adapter.common.utils.converter.PaymentResourceTypeResolver.getPaymentResourceType;
-import static com.rbkmoney.java.damsel.utils.extractors.ProxyProviderPackageExtractors.*;
 import static com.rbkmoney.java.damsel.utils.verification.ProxyProviderVerification.isUndefinedResultOrUnavailable;
 
 @Slf4j
@@ -19,7 +19,7 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
 
     @Override
     public RecurrentTokenProxyResult generateToken(RecurrentTokenContext context) throws TException {
-        String recurrentId = extractRecurrentId(context);
+        String recurrentId = ProxyProviderPackageExtractors.extractRecurrentId(context);
         log.info("Generate token started with recurrentId {}", recurrentId);
         try {
             RecurrentTokenProxyResult proxyResult = handler.generateToken(context);
@@ -35,7 +35,7 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
     @Override
     public RecurrentTokenCallbackResult handleRecurrentTokenCallback(ByteBuffer byteBuffer,
                                                                      RecurrentTokenContext context) throws TException {
-        String recurrentId = context.getTokenInfo().getPaymentTool().getId();
+        String recurrentId = ProxyProviderPackageExtractors.extractRecurrentId(context);
         log.info("handleRecurrentTokenCallback: start with recurrentId {}", recurrentId);
         RecurrentTokenCallbackResult result = handler.handleRecurrentTokenCallback(byteBuffer, context);
         log.info("handleRecurrentTokenCallback end {} with recurrentId {}", result, recurrentId);
@@ -44,9 +44,9 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
 
     @Override
     public PaymentProxyResult processPayment(PaymentContext context) throws TException {
-        String invoiceId = extractInvoiceId(context);
-        String invoicePaymentStatus = extractTargetInvoicePaymentStatus(context);
-        String paymentResourceType = getPaymentResourceType(context);
+        String invoiceId = ProxyProviderPackageExtractors.extractInvoiceId(context);
+        String invoicePaymentStatus = ProxyProviderPackageExtractors.extractTargetInvoicePaymentStatus(context);
+        String paymentResourceType = PaymentResourceTypeResolver.getPaymentResourceType(context);
         log.info("Process payment handle {}-{} start with invoiceId {}", paymentResourceType, invoicePaymentStatus, invoiceId);
         try {
             PaymentProxyResult proxyResult = handler.processPayment(context);
@@ -64,7 +64,7 @@ public class ServerHandlerLogDecorator implements ProviderProxySrv.Iface {
     @Override
     public PaymentCallbackResult handlePaymentCallback(ByteBuffer byteBuffer,
                                                        PaymentContext context) throws TException {
-        String invoiceId = context.getPaymentInfo().getInvoice().getId();
+        String invoiceId = ProxyProviderPackageExtractors.extractInvoiceId(context);
         log.info("handlePaymentCallback start with invoiceId {}", invoiceId);
         PaymentCallbackResult result = handler.handlePaymentCallback(byteBuffer, context);
         log.info("handlePaymentCallback finish {} with invoiceId {}", result, invoiceId);

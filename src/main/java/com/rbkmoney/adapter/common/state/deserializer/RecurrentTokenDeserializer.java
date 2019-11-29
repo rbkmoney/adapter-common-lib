@@ -18,7 +18,7 @@ public class RecurrentTokenDeserializer implements Deserializer<RecToken> {
 
     @Override
     public RecToken read(byte[] data) {
-        throw new DeserializerException("Deserializer not supported");
+        throw new DeserializationException("Deserialization not supported");
     }
 
     @Override

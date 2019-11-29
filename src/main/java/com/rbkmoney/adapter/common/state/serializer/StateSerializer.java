@@ -20,7 +20,7 @@ public abstract class StateSerializer<T> implements Serializer<T> {
         try {
             return mapper.writeValueAsBytes(obj);
         } catch (IOException e) {
-            throw new SerializerException(e);
+            throw new SerializationException(e);
         }
     }
 
@@ -29,7 +29,7 @@ public abstract class StateSerializer<T> implements Serializer<T> {
         try {
             return Base64.getEncoder().encodeToString(getMapper().writeValueAsBytes(obj));
         } catch (IOException e) {
-            throw new SerializerException(e);
+            throw new SerializationException(e);
         }
     }
 

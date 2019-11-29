@@ -34,7 +34,7 @@ public class CallbackDeserializer implements Deserializer<Callback> {
 
     @Override
     public Callback read(String data) {
-        throw new DeserializerException("Deserializer not supported");
+        throw new DeserializationException("Deserialization not supported");
     }
 
     public Callback read(HttpServletRequest request) {

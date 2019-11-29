@@ -6,6 +6,7 @@ import com.rbkmoney.adapter.common.model.Callback;
 import com.rbkmoney.adapter.common.state.deserializer.AdapterDeserializer;
 import com.rbkmoney.adapter.common.state.deserializer.CallbackDeserializer;
 import com.rbkmoney.adapter.common.state.serializer.AdapterSerializer;
+import com.rbkmoney.adapter.common.state.utils.AdapterStateUtils;
 import com.rbkmoney.damsel.proxy_provider.PaymentCallbackProxyResult;
 import com.rbkmoney.damsel.proxy_provider.PaymentCallbackResult;
 import com.rbkmoney.damsel.proxy_provider.PaymentContext;
@@ -27,7 +28,7 @@ public class PaymentCallbackHandler implements CallbackHandler<PaymentCallbackRe
 
     @Override
     public PaymentCallbackResult handleCallback(ByteBuffer callback, PaymentContext context) {
-        AdapterContext adapterContext = adapterDeserializer.getAdapterContext(context);
+        AdapterContext adapterContext = AdapterStateUtils.getAdapterContext(context, adapterDeserializer);
         adapterContext.setStep(Step.FINISH_THREE_DS);
         Callback callbackObj = callbackDeserializer.read(callback.array());
         adapterContext.setPaRes(callbackObj.getPaRes());

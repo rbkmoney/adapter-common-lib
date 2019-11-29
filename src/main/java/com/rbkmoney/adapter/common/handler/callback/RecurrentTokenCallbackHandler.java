@@ -6,6 +6,7 @@ import com.rbkmoney.adapter.common.model.Callback;
 import com.rbkmoney.adapter.common.state.deserializer.AdapterDeserializer;
 import com.rbkmoney.adapter.common.state.deserializer.CallbackDeserializer;
 import com.rbkmoney.adapter.common.state.serializer.AdapterSerializer;
+import com.rbkmoney.adapter.common.state.utils.AdapterStateUtils;
 import com.rbkmoney.damsel.proxy_provider.RecurrentTokenCallbackResult;
 import com.rbkmoney.damsel.proxy_provider.RecurrentTokenContext;
 import com.rbkmoney.damsel.proxy_provider.RecurrentTokenIntent;
@@ -29,7 +30,7 @@ public class RecurrentTokenCallbackHandler implements CallbackHandler<RecurrentT
 
     @Override
     public RecurrentTokenCallbackResult handleCallback(ByteBuffer callback, RecurrentTokenContext context) {
-        AdapterContext adapterContext = adapterDeserializer.getAdapterContext(context);
+        AdapterContext adapterContext = AdapterStateUtils.getAdapterContext(context, adapterDeserializer);
         adapterContext.setStep(Step.GENERATE_TOKEN_FINISH_THREE_DS);
         Callback callbackObj = callbackDeserializer.read(callback.array());
         adapterContext.setPaRes(callbackObj.getPaRes());
