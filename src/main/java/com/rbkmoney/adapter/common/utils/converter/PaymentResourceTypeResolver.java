@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PaymentResourceTypeResolver {
 
-    public static String getPaymentResourceType(PaymentContext paymentContext) {
+    public static String extractPaymentResourceType(PaymentContext paymentContext) {
         if (paymentContext == null) {
             throw new IllegalArgumentException("PaymentContext cannot be empty");
         } else if (paymentContext.getSession() == null) {
             throw new IllegalArgumentException("Payment context session cannot be empty");
         }
-        return getPaymentResourceType(paymentContext.getPaymentInfo().getPayment().getPaymentResource());
+        return extractPaymentResourceType(paymentContext.getPaymentInfo().getPayment().getPaymentResource());
     }
 
-    public static String getPaymentResourceType(PaymentResource paymentResource) {
+    public static String extractPaymentResourceType(PaymentResource paymentResource) {
         return (paymentResource.isSetRecurrentPaymentResource())
                 ? PaymentResourceType.RECURRENT.name()
                 : PaymentResourceType.PAYMENT.name();
