@@ -16,29 +16,48 @@ public class BankCardUtils {
 
     private static final String DEFAULT_NUMBER_FORMAT = "%1$02d";
 
+    public static String getFullCardExpDate(CardDataProxyModel expDate) {
+        return getFullCardExpDate(expDate.getExpYear(), expDate.getExpMonth());
+    }
+
     public static String getFullCardExpDate(BankCardExpDate expDate) {
-        int correctYear = expDate.getYear() / 100 == 0 ? expDate.getYear() + 2000 : expDate.getYear();
-        return String.format("%1$04d%2$02d%3$02d", correctYear, expDate.getMonth(), getDayOfMonth(expDate));
+        return getFullCardExpDate(expDate.getYear(), expDate.getMonth());
+    }
+
+    public static String getFullCardExpDate(short year, byte month) {
+        int correctYear = year < 100 ? year + 2000 : year;
+        return String.format("%1$04d%2$02d%3$02d", correctYear, month, getDayOfMonth(year, month));
+    }
+
+    public static Integer getDayOfMonth(CardDataProxyModel cardData) {
+        return getDayOfMonth(cardData.getExpYear(), cardData.getExpMonth());
+    }
+
+    public static Integer getDayOfMonth(CardData cardData) {
+        ExpDate expDate = cardData.getExpDate();
+        return getDayOfMonth(expDate.getYear(), expDate.getMonth());
     }
 
     public static Integer getDayOfMonth(BankCardExpDate expDate) {
+        return getDayOfMonth(expDate.getYear(), expDate.getMonth());
+    }
+
+    public static Integer getDayOfMonth(short year, byte month) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(expDate.getYear(), expDate.getMonth(), -1);
+        calendar.set(year, month, -1);
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getYearFromBankCardExpDate(CardDataProxyModel expDate) {
+        return getBankCardFormattedYear(expDate.getExpYear());
     }
 
     public static String getYearFromBankCardExpDate(BankCardExpDate expDate) {
         return getBankCardFormattedYear(expDate.getYear());
     }
 
-    @Deprecated
-    public static String getMonthFromExpDate(Byte month) {
-        return getBankCardFormattedMonth(month);
-    }
-
-    @Deprecated
-    public static String getFullDateFromBankCardExpDate(BankCardExpDate bankCardExpDate) {
-        return getFullCardExpDate(bankCardExpDate);
+    public static String getMonthFromBankCardExpDate(CardDataProxyModel expDate) {
+        return getBankCardFormattedMonth(expDate.getExpMonth());
     }
 
     public static String getMonthFromBankCardExpDate(BankCardExpDate expDate) {
