@@ -31,10 +31,10 @@ public class BankCardUtilsTest {
 
         assertEquals("20200331", getFullCardExpDate(TEST_BANK_CARD_EXP_DATE));
         assertEquals(new Integer(31), getDayOfMonth(TEST_BANK_CARD_EXP_DATE));
-        assertEquals("20", getYearFromBankCardExpDate(TEST_BANK_CARD_EXP_DATE));
+        assertEquals("20", BankCardUtils.getYearFromExpDate(TEST_BANK_CARD_EXP_DATE));
         assertEquals("20", getBankCardFormattedYear(TEST_YEAR));
         assertEquals("03", getBankCardFormattedMonth(TEST_MONTH));
-        assertEquals("03", getMonthFromBankCardExpDate(TEST_BANK_CARD_EXP_DATE));
+        assertEquals("03", getMonthFromExpDate(TEST_BANK_CARD_EXP_DATE));
         assertEquals("2003", expDateToString(new CardData(), TEST_BANK_CARD));
         assertEquals("2006", expDateToString(TEST_CARD_DATA, TEST_BANK_CARD));
 

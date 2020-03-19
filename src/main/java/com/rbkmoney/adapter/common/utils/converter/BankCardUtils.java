@@ -48,19 +48,19 @@ public class BankCardUtils {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
-    public static String getYearFromBankCardExpDate(CardDataProxyModel expDate) {
+    public static String getYearFromExpDate(CardDataProxyModel expDate) {
         return getBankCardFormattedYear(expDate.getExpYear());
     }
 
-    public static String getYearFromBankCardExpDate(BankCardExpDate expDate) {
+    public static String getYearFromExpDate(BankCardExpDate expDate) {
         return getBankCardFormattedYear(expDate.getYear());
     }
 
-    public static String getMonthFromBankCardExpDate(CardDataProxyModel expDate) {
+    public static String getMonthFromExpDate(CardDataProxyModel expDate) {
         return getBankCardFormattedMonth(expDate.getExpMonth());
     }
 
-    public static String getMonthFromBankCardExpDate(BankCardExpDate expDate) {
+    public static String getMonthFromExpDate(BankCardExpDate expDate) {
         return getBankCardFormattedMonth(expDate.getMonth());
     }
 
