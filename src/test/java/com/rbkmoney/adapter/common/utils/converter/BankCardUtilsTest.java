@@ -1,6 +1,5 @@
 package com.rbkmoney.adapter.common.utils.converter;
 
-import com.rbkmoney.adapter.common.enums.BankCardExpDateFormat;
 import com.rbkmoney.damsel.cds.CardData;
 import com.rbkmoney.damsel.cds.ExpDate;
 import com.rbkmoney.damsel.domain.BankCard;
@@ -30,11 +29,21 @@ public class BankCardUtilsTest {
         // exp date: year 2020, month 3
 
         assertEquals("20200331", getFullCardExpDate(TEST_BANK_CARD_EXP_DATE));
+        assertEquals("20200331", getFullCardExpDate(TEST_CARD_DATA_PROXY_MODEL));
+
         assertEquals(new Integer(31), getDayOfMonth(TEST_BANK_CARD_EXP_DATE));
+        assertEquals(new Integer(31), getDayOfMonth(TEST_CARD_DATA_PROXY_MODEL));
+        assertEquals(new Integer(30), getDayOfMonth(TEST_CARD_DATA));
+
         assertEquals("20", BankCardUtils.getYearFromExpDate(TEST_BANK_CARD_EXP_DATE));
+        assertEquals("20", BankCardUtils.getYearFromExpDate(TEST_CARD_DATA_PROXY_MODEL));
+
         assertEquals("20", getBankCardFormattedYear(TEST_YEAR));
         assertEquals("03", getBankCardFormattedMonth(TEST_MONTH));
+
         assertEquals("03", getMonthFromExpDate(TEST_BANK_CARD_EXP_DATE));
+        assertEquals("03", getMonthFromExpDate(TEST_CARD_DATA_PROXY_MODEL));
+
         assertEquals("2003", expDateToString(new CardData(), TEST_BANK_CARD));
         assertEquals("2006", expDateToString(TEST_CARD_DATA, TEST_BANK_CARD));
 
@@ -42,7 +51,7 @@ public class BankCardUtilsTest {
         assertEquals("2003", expDateToString(TEST_EXP_DATE));
         assertEquals("2003", expDateToString(TEST_BANK_CARD_EXP_DATE));
 
-        assertEquals("0620", expDateToString(TEST_YEAR, TEST_NEW_MONTH, BankCardExpDateFormat.MMYY));
+        assertEquals("0620", expDateToString(TEST_YEAR, TEST_NEW_MONTH, MMYY_EXP_DATE_FORMAT));
     }
 
 }

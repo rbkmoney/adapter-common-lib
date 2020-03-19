@@ -1,6 +1,5 @@
 package com.rbkmoney.adapter.common.utils.converter;
 
-import com.rbkmoney.adapter.common.enums.BankCardExpDateFormat;
 import com.rbkmoney.damsel.cds.CardData;
 import com.rbkmoney.damsel.cds.ExpDate;
 import com.rbkmoney.damsel.domain.BankCard;
@@ -15,6 +14,10 @@ import java.util.Calendar;
 public class BankCardUtils {
 
     private static final String DEFAULT_NUMBER_FORMAT = "%1$02d";
+
+    public static final String DEFAULT_EXP_DATE_FORMAT = "%1$02d%2$02d";
+    public static final String YYMM_EXP_DATE_FORMAT = DEFAULT_EXP_DATE_FORMAT;
+    public static final String MMYY_EXP_DATE_FORMAT = "%2$02d%1$02d";
 
     public static String getFullCardExpDate(CardDataProxyModel expDate) {
         return getFullCardExpDate(expDate.getExpYear(), expDate.getExpMonth());
@@ -79,25 +82,31 @@ public class BankCardUtils {
         return expDateToString(bankCard.getExpDate());
     }
 
-    public static String expDateToString(CardDataProxyModel cardDataProxyModel) {
-        return expDateToString(cardDataProxyModel.getExpYear(), cardDataProxyModel.getExpMonth(), BankCardExpDateFormat.YYMM);
+    public static String expDateToString(CardDataProxyModel model) {
+        return expDateToString(model.getExpYear(), model.getExpMonth(), DEFAULT_EXP_DATE_FORMAT);
+    }
+
+    public static String expDateToString(CardDataProxyModel model, String expDateFormat) {
+        return expDateToString(model.getExpYear(), model.getExpMonth(), expDateFormat);
     }
 
     public static String expDateToString(ExpDate expDate) {
-        return expDateToString(expDate.getYear(), expDate.getMonth(), BankCardExpDateFormat.YYMM);
+        return expDateToString(expDate.getYear(), expDate.getMonth(), DEFAULT_EXP_DATE_FORMAT);
+    }
+
+    public static String expDateToString(ExpDate expDate, String expDateFormat) {
+        return expDateToString(expDate.getYear(), expDate.getMonth(), expDateFormat);
     }
 
     public static String expDateToString(BankCardExpDate expDate) {
-        return expDateToString(expDate.getYear(), expDate.getMonth(), BankCardExpDateFormat.YYMM);
+        return expDateToString(expDate.getYear(), expDate.getMonth(), DEFAULT_EXP_DATE_FORMAT);
     }
 
-    public static String expDateToString(short year, byte month, BankCardExpDateFormat format) {
-        String formattedYear = getBankCardFormattedYear(year);
-        String formattedMonth = getBankCardFormattedMonth(month);
-        if (format == BankCardExpDateFormat.MMYY) {
-            return formattedMonth + formattedYear;
-        } else {
-            return formattedYear + formattedMonth;
-        }
+    public static String expDateToString(BankCardExpDate expDate, String expDateFormat) {
+        return expDateToString(expDate.getYear(), expDate.getMonth(), expDateFormat);
+    }
+
+    public static String expDateToString(short year, byte month, String expDateFormat) {
+        return String.format(expDateFormat, year % 100, month);
     }
 }
