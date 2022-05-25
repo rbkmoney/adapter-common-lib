@@ -43,7 +43,7 @@
         <adapter-thrift-lib.version>1.0.5</adapter-thrift-lib.version>
         <adapter-client-lib.version>2.1.27</adapter-client-lib.version>
 
-        <spring>5.2.8.RELEASE</spring>
+        <spring>5.2.22.RELEASE</spring>
         <spring-boot>2.3.2.RELEASE</spring-boot>
 
         <apache.commons.lang3.version>3.9</apache.commons.lang3.version>
